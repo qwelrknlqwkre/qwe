@@ -207,13 +207,13 @@ class GoStop3PEngine {
     winner = playerKey;
   }
 
-  String getResult() {
-    if (!gameOver) return '게임 진행 중';
-    final loser = winner == 'player1' ? 'player2' : 'player1';
-    final winScore = calculateScore(winner!);
-    final loseScore = calculateScore(loser);
-    return "\$winner 승리 (\$winScore vs \$loseScore)";
-  }
+String getResult() {
+  if (!gameOver) return '게임 진행 중';
+  final loser = winner == 'player1' ? 'player2' : 'player1';
+  final winScore = calculateScore(winner!);
+  final loseScore = calculateScore(loser);
+  return "$winner 승리 ($winScore vs $loseScore)";
+}
 
   List<GoStopCard> getField() => field;
   List<GoStopCard> getHand(int playerNum) => hands['player\$playerNum'] ?? [];

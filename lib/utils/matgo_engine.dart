@@ -41,7 +41,7 @@ class MatgoEngine {
 
   void playTurn(GoStopCard playedCard) {
     final playerKey = 'player$currentPlayer';
-    final opponentKey = currentPlayer == 1 ? 'player2' : 'player1';
+   // final opponentKey = currentPlayer == 1 ? 'player2' : 'player1';
 
     // 폭탄 체크
     if (_checkAndApplyBomb(playerKey, playedCard)) {

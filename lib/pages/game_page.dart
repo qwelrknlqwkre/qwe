@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../utils/matgo_engine.dart';
 import '../utils/gostop_3p_engine.dart';
 import '../models/card_model.dart';
-import 'gostop_board.dart';
+import '../screens/gostop_board.dart';
 
 class GamePage extends StatefulWidget {
   final String mode;
@@ -85,6 +85,7 @@ class _GamePageState extends State<GamePage> {
         setState(() {});
         if (engine.isAwaitingGoStop()) {
           final score = engine.calculateScore('player$cp');
+          if (!mounted) return;
           final result = await showDialog<String>(
             context: context,
             builder: (_) => AlertDialog(
