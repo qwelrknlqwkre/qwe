@@ -19,6 +19,9 @@ class GoStop3PEngine {
   String? winner;
   bool gameOver = false;
   final EventEvaluator eventEvaluator = EventEvaluator();
+  bool ssangpi1Given = false;
+  bool ssangpi2Given = false;
+  bool threepiGiven = false;
 
   GoStop3PEngine() {
     _initializeGame();
@@ -80,90 +83,57 @@ class GoStop3PEngine {
       field.add(card);
     } else if (matches.length == 1) {
       field.remove(matches.first);
-      captured[playerKey]!.addAll([
-      GoStopCard(
-        id: 990,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피1)',
-        imageUrl: 'assets/cards/bonus_ssangpi1.png',
-      ),
-      GoStopCard(
-        id: 991,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피2)',
-        imageUrl: 'assets/cards/bonus_ssangpi2.png',
-      ),card, matches.first]);
+      captured[playerKey]!.addAll([card, matches.first]);
     } else if (matches.length == 2) {
       final chosen = matches[Random().nextInt(2)];
       field.remove(chosen);
-      captured[playerKey]!.addAll([
-      GoStopCard(
-        id: 990,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피1)',
-        imageUrl: 'assets/cards/bonus_ssangpi1.png',
-      ),
-      GoStopCard(
-        id: 991,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피2)',
-        imageUrl: 'assets/cards/bonus_ssangpi2.png',
-      ),card, chosen]);
+      captured[playerKey]!.addAll([card, chosen]);
     } else if (matches.length == 3) {
       field.removeWhere((c) => c.month == card.month);
-      captured[playerKey]!.addAll([
-      GoStopCard(
-        id: 990,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피1)',
-        imageUrl: 'assets/cards/bonus_ssangpi1.png',
-      ),
-      GoStopCard(
-        id: 991,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피2)',
-        imageUrl: 'assets/cards/bonus_ssangpi2.png',
-      ),card, ...matches]);
+      captured[playerKey]!.addAll([card, ...matches]);
     }
   }
 
   void _addBonusPi(String playerKey, {required String reason}) {
-    captured[playerKey]!.addAll([
-      GoStopCard(
-        id: 990,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피1)',
-        imageUrl: 'assets/cards/bonus_ssangpi1.png',
-      ),
-      GoStopCard(
-        id: 991,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피2)',
-        imageUrl: 'assets/cards/bonus_ssangpi2.png',
-      ),
-      GoStopCard(
-        id: 990,
-        month: 0,
-        type: '피',
-        name: '보너스(쌍피1)',
-        imageUrl: 'assets/cards/bonus_ssangpi1.png',
-      ),
-      GoStopCard(
-        id: 992,
-        month: 0,
-        type: '피',
-        name: '보너스(쓰리피)',
-        imageUrl: 'assets/cards/bonus_3pi.png',
-      ),
-    ]);
+    // Bonus card rules:
+    //   1) The first bonus event grants '쌍피1' (worth 2피).
+    //   2) The second grants '쌍피2'.
+    //   3) The third grants '쓰리피' (worth 3피).
+    // After all three are given, no further bonus cards are added.
+    if (!ssangpi1Given) {
+      captured[playerKey]!.add(
+        GoStopCard(
+          id: 990,
+          month: 0,
+          type: '피',
+          name: '보너스(쌍피1)',
+          imageUrl: 'assets/cards/bonus_ssangpi1.png',
+        ),
+      );
+      ssangpi1Given = true;
+    } else if (!ssangpi2Given) {
+      captured[playerKey]!.add(
+        GoStopCard(
+          id: 991,
+          month: 0,
+          type: '피',
+          name: '보너스(쌍피2)',
+          imageUrl: 'assets/cards/bonus_ssangpi2.png',
+        ),
+      );
+      ssangpi2Given = true;
+    } else if (!threepiGiven) {
+      captured[playerKey]!.add(
+        GoStopCard(
+          id: 992,
+          month: 0,
+          type: '피',
+          name: '보너스(쓰리피)',
+          imageUrl: 'assets/cards/bonus_3pi.png',
+        ),
+      );
+      threepiGiven = true;
+    }
   }
 
   bool _checkVictoryCondition(String playerKey) {
