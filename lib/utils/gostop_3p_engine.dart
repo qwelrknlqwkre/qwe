@@ -25,7 +25,7 @@ class GoStop3PEngine {
   }
 
   void _initializeGame() {
-    final deck = List<GoStopCard>.from(goStopCards.where((c) => c.type != 'back'));
+    final deck = List<GoStopCard>.from(goStopCards.where((c) => c.type != CardType.back));
     deck.shuffle();
 
     field.addAll(deck.sublist(0, 8));
@@ -84,14 +84,14 @@ class GoStop3PEngine {
       GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피1)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ),
       GoStopCard(
         id: 991,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피2)',
         imageUrl: 'assets/cards/bonus_ssangpi2.png',
       ),card, matches.first]);
@@ -102,14 +102,14 @@ class GoStop3PEngine {
       GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피1)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ),
       GoStopCard(
         id: 991,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피2)',
         imageUrl: 'assets/cards/bonus_ssangpi2.png',
       ),card, chosen]);
@@ -119,14 +119,14 @@ class GoStop3PEngine {
       GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피1)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ),
       GoStopCard(
         id: 991,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피2)',
         imageUrl: 'assets/cards/bonus_ssangpi2.png',
       ),card, ...matches]);
@@ -138,28 +138,28 @@ class GoStop3PEngine {
       GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피1)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ),
       GoStopCard(
         id: 991,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피2)',
         imageUrl: 'assets/cards/bonus_ssangpi2.png',
       ),
       GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피1)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ),
       GoStopCard(
         id: 992,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쓰리피)',
         imageUrl: 'assets/cards/bonus_3pi.png',
       ),
@@ -175,10 +175,10 @@ class GoStop3PEngine {
     final cards = captured[playerKey]!;
     int score = 0;
 
-    int gwang = cards.where((c) => c.type == '광').length;
-    int animal = cards.where((c) => c.type == '동물').length;
-    int ribbon = cards.where((c) => c.type == '띠').length;
-    int pi = cards.where((c) => c.type == '피').fold(0, (sum, c) => sum + (c.name.contains('쌍') ? 2 : 1));
+    int gwang = cards.where((c) => c.type == CardType.gwang).length;
+    int animal = cards.where((c) => c.type == CardType.animal).length;
+    int ribbon = cards.where((c) => c.type == CardType.tti).length;
+    int pi = cards.where((c) => c.type == CardType.pi).fold(0, (sum, c) => sum + (c.name.contains('쌍') ? 2 : 1));
 
     if (gwang >= 3) score += (gwang == 3 ? 3 : (gwang == 4 ? 4 : 15));
     if (animal >= 5) score += animal - 4;
@@ -193,7 +193,7 @@ class GoStop3PEngine {
 
   bool _hasGodori(List<GoStopCard> cards) {
     final godoriSet = {'1', '3', '8'};
-    final months = cards.where((c) => c.type == '동물').map((c) => c.month.toString()).toSet();
+    final months = cards.where((c) => c.type == CardType.animal).map((c) => c.month.toString()).toSet();
     return godoriSet.every(months.contains);
   }
 

@@ -61,7 +61,7 @@ class GoStopBoard extends StatelessWidget {
         Wrap(
           spacing: 4,
           children: opponentHand.map((_) => CardWidget(
-            card: GoStopCard(id: 0, month: 0, type: 'back', name: 'Back', imageUrl: 'assets/cards/back.png'),
+            card: GoStopCard(id: 0, month: 0, type: CardType.back, name: 'Back', imageUrl: 'assets/cards/back.png'),
             showBack: true,
           )).toList(),
         ),

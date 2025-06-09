@@ -89,7 +89,7 @@ class MatgoEngine {
     if (sameMonthCards.length >= 3) {
       final fieldMatch = field.firstWhere(
           (c) => c.month == month,
-          orElse: () => GoStopCard(id: -1, month: 0, type: 'none', name: '', imageUrl: ''));
+          orElse: () => GoStopCard(id: -1, month: 0, type: CardType.pi, name: '', imageUrl: ''));
 
       if (fieldMatch.id != -1) {
         // 폭탄 적용
@@ -105,7 +105,7 @@ class MatgoEngine {
         // 상대 피 뺏기
         final opponentKey = playerKey == 'player1' ? 'player2' : 'player1';
         final opponentPi = captured[opponentKey]!
-            .firstWhere((c) => c.type == '피', orElse: () => GoStopCard(id: -1, month: 0, type: '', name: '', imageUrl: ''));
+            .firstWhere((c) => c.type == CardType.pi, orElse: () => GoStopCard(id: -1, month: 0, type: CardType.pi, name: '', imageUrl: ''));
 
         if (opponentPi.id != -1) {
           captured[opponentKey]!.removeWhere((c) => c.id == opponentPi.id);
@@ -144,7 +144,7 @@ class MatgoEngine {
       bonuses.add(GoStopCard(
         id: 990,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쌍피)',
         imageUrl: 'assets/cards/bonus_ssangpi1.png',
       ));
@@ -155,7 +155,7 @@ class MatgoEngine {
       bonuses.add(GoStopCard(
         id: 992,
         month: 0,
-        type: '피',
+        type: CardType.pi,
         name: '보너스(쓰리피)',
         imageUrl: 'assets/cards/bonus_3pi.png',
       ));
@@ -174,10 +174,10 @@ class MatgoEngine {
     final cards = captured[playerKey]!;
     int score = 0;
 
-    int gwang = cards.where((c) => c.type == '광').length;
-    int animal = cards.where((c) => c.type == '동물').length;
-    int ribbon = cards.where((c) => c.type == '띠').length;
-    int pi = cards.where((c) => c.type == '피').fold(0, (sum, c) {
+    int gwang = cards.where((c) => c.type == CardType.gwang).length;
+    int animal = cards.where((c) => c.type == CardType.animal).length;
+    int ribbon = cards.where((c) => c.type == CardType.tti).length;
+    int pi = cards.where((c) => c.type == CardType.pi).fold(0, (sum, c) {
       if (c.name.contains('쓰리피')) return sum + 3;
       if (c.name.contains('쌍피')) return sum + 2;
       return sum + 1;
@@ -196,7 +196,7 @@ class MatgoEngine {
   bool _hasGodori(List<GoStopCard> cards) {
     final godoriSet = {'1', '3', '8'};
     final months = cards
-        .where((c) => c.type == '동물')
+        .where((c) => c.type == CardType.animal)
         .map((c) => c.month.toString())
         .toSet();
     return godoriSet.every(months.contains);

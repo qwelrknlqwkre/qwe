@@ -12,7 +12,7 @@ class DeckManager {
 
   DeckManager({required this.playerCount, this.isMatgo = false})
       : fullDeck = List.from(
-            goStopCards.where((card) => card.type != 'back')) {
+            goStopCards.where((card) => card.type != CardType.back)) {
     if (playerCount < 2 || playerCount > 3) {
       throw Exception('GoStop supports only 2 or 3 players.');
     }

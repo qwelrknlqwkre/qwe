@@ -1,7 +1,9 @@
+enum CardType { gwang, tti, pi, animal, back }
+
 class GoStopCard {
   final int id;
   final int month; // 1 ~ 12
-  final String type; // '광', '띠', '피', etc.
+  final CardType type;
   final String name;
   final String imageUrl;
 
