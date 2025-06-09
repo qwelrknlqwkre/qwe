@@ -1,6 +1,7 @@
 import 'dart:math';
 import '../models/card_model.dart';
 import '../data/card_data.dart';
+import 'deck_manager.dart';
 import 'event_evaluator.dart';
 
 class GoStop3PEngine {
@@ -9,10 +10,12 @@ class GoStop3PEngine {
   final Map<String, List<GoStopCard>> hands = {
     'player1': [],
     'player2': [],
+    'player3': [],
   };
   final Map<String, List<GoStopCard>> captured = {
     'player1': [],
     'player2': [],
+    'player3': [],
   };
   int currentPlayer = 1;
   int goCount = 0;
@@ -25,15 +28,14 @@ class GoStop3PEngine {
   }
 
   void _initializeGame() {
-    final deck = List<GoStopCard>.from(goStopCards.where((c) => c.type != 'back'));
-    deck.shuffle();
+    final deck = DeckManager(playerCount: 3);
+    hands['player1'] = deck.getPlayerHand(0);
+    hands['player2'] = deck.getPlayerHand(1);
+    hands['player3'] = deck.getPlayerHand(2);
+    field.addAll(deck.getFieldCards());
+    drawPile.addAll(deck.getDrawPile());
 
-    field.addAll(deck.sublist(0, 8));
-    hands['player1'] = deck.sublist(8, 18);
-    hands['player2'] = deck.sublist(18, 28);
-    drawPile.addAll(deck.sublist(28));
-
-    currentPlayer = Random().nextBool() ? 1 : 2;
+    currentPlayer = Random().nextInt(3) + 1;
   }
 
   void playTurn(GoStopCard playedCard) {
@@ -69,7 +71,7 @@ class GoStop3PEngine {
       gameOver = true;
       winner = playerKey;
     } else {
-      currentPlayer = currentPlayer == 1 ? 2 : 1;
+      currentPlayer = currentPlayer % 3 + 1;
     }
   }
 
@@ -209,10 +211,15 @@ class GoStop3PEngine {
 
 String getResult() {
   if (!gameOver) return '게임 진행 중';
-  final loser = winner == 'player1' ? 'player2' : 'player1';
-  final winScore = calculateScore(winner!);
-  final loseScore = calculateScore(loser);
-  return "$winner 승리 ($winScore vs $loseScore)";
+  final scores = {
+    'player1': calculateScore('player1'),
+    'player2': calculateScore('player2'),
+    'player3': calculateScore('player3'),
+  };
+  final scoreText = scores.entries
+      .map((e) => "${e.key}:${e.value}")
+      .join(', ');
+  return "$winner 승리 ($scoreText)";
 }
 
   List<GoStopCard> getField() => field;
