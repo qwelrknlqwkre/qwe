@@ -18,22 +18,22 @@ class GameSetupPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(context,
                   MaterialPageRoute(
-                    builder: (_) => GamePage(mode: 'matgo'),
+                    builder: (_) => const GamePage(mode: 'ai'),
                   ),
                 );
               },
-              child: const Text('2인 맞고 시작'),
+              child: const Text('AI 대전'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context,
                   MaterialPageRoute(
-                    builder: (_) => GamePage(mode: 'gostop3p'),
+                    builder: (_) => const GamePage(mode: '2p'),
                   ),
                 );
               },
-              child: const Text('3인 고스톱 시작'),
+              child: const Text('2인 대전(사람 vs 사람)'),
             ),
           ],
         ),

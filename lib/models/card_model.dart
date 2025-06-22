@@ -4,6 +4,7 @@ class GoStopCard {
   final String type; // '광', '띠', '피', etc.
   final String name;
   final String imageUrl;
+  final bool isBonus;
 
   GoStopCard({
     required this.id,
@@ -11,5 +12,6 @@ class GoStopCard {
     required this.type,
     required this.name,
     required this.imageUrl,
+    this.isBonus = false,
   });
 }
